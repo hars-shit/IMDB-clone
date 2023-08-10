@@ -4,6 +4,8 @@ import { BookmarkAdd, ExpandMore, Menu } from "@mui/icons-material"
 
 import { useState } from "react";
 import HeaderMenu from "./HeaderMenu";
+import { useNavigate } from "react-router-dom";
+import { routePath } from "../constant/route";
 const StyledToolbar=styled(Toolbar)`
     background:#121212;
     min-height:56px !important;
@@ -39,6 +41,7 @@ border-radius:5px
 `
 const Header=()=>{
     const [open,setOpen]=useState(null);
+    const nav=useNavigate();
     const handleClick=(e)=>{
         setOpen(e.currentTarget);
     }
@@ -48,7 +51,7 @@ const Header=()=>{
     return(
        <AppBar position="static">
         <StyledToolbar>
-            <Logo src={logoURL} alt="logo" />
+            <Logo src={logoURL} alt="logo" onClick={()=>nav(routePath.home)}/>
             <Box onClick={handleClick}>
                <Menu />
                <Typography>Menu</Typography>

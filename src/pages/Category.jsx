@@ -1,4 +1,4 @@
-import { Box, styled } from "@mui/material"
+import { Box, Divider, Typography, styled } from "@mui/material"
 import Header from "../components/Header"
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -6,14 +6,15 @@ import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
 import axios from "axios";
+import MovieList from "../components/MovieList";
 const responsive = {
     desktop: {
         breakpoint: { max: 3000, min: 1024 },
-        items: 5,
+        items: 1,
     },
     tablet: {
         breakpoint: { max: 1024, min: 464 },
-        items: 3,
+        items: 1,
     },
     mobile: {
         breakpoint: { max: 464, min: 0 },
@@ -23,6 +24,14 @@ const responsive = {
 const StyledBanner=styled('img')({
     height:450,
     width:'100%',
+})
+const Comp=styled(Box)({
+    width:'80%',
+    margin:'auto'
+})
+const Container=styled(Box)({
+    background:'#F5F5F5',
+    padding:10
 })
 const Category=()=>{
     const [movies,setMovies]=useState([]);
@@ -45,7 +54,7 @@ const Category=()=>{
          let API_URL;
 
         if(search.includes('upcoming')){
-            API_URL: 'https://api.themoviedb.org/3/movie/upcoming?api_key=18d76df27d64052fb0a6511ba0d80ae4&language=en-US';
+            API_URL='https://api.themoviedb.org/3/movie/upcoming?api_key=18d76df27d64052fb0a6511ba0d80ae4&language=en-US';
              
              
          }
@@ -55,13 +64,14 @@ const Category=()=>{
 
         }
         else if(search.includes('toprated')){
-            API_URL:'https://api.themoviedb.org/3/movie/top_rated?api_key=18d76df27d64052fb0a6511ba0d80ae4&language=en-US';
+            API_URL= 'https://api.themoviedb.org/3/movie/top_rated?api_key=18d76df27d64052fb0a6511ba0d80ae4&language=en-US';
         
         }
         getData(API_URL);
     },[search]) 
 return(<>
 <Header />
+ <Comp>
 {
     console.log("API",movies)
 }
@@ -91,6 +101,18 @@ return(<>
         }
 
  </Carousel>
+ <Container>
+    <Typography variant="h6">
+        IMDb Charts 
+    </Typography>
+    <Typography variant="h4">
+        IMDb {search.split('=')[1].charAt(0).toUpperCase() + search.split('=')[1].slice(1)} Movies
+    </Typography>
+    <Typography style={{fontSize:12,margin:5}}>IMDb Top {movies.length} as rated by IMDb voters.</Typography>
+        <Divider />
+        <MovieList movies={movies} />
+ </Container>
+ </Comp>
 </>)
 }
 export default Category
